@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Histórico de Transações</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='historico.css') }}">
+</head>
+<body>
+
+  <nav>
+    <ul>
+      <li><a href="{{ url_for('dashboard') }}">Início</a></li>
+      <li><a href="{{ url_for('adicionar_receita') }}">Receita</a></li>
+      <li><a href="{{ url_for('adicionar_despesa') }}">Despesa</a></li>
+      <li><a href="{{ url_for('historico') }}" class="active">Histórico</a></li>
+      <li><a href="{{ url_for('agendar_transacao') }}">Agendar</a></li>
+      <li><a href="{{ url_for('logout') }}">Sair</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="card-box">
+      <h3>Histórico de Transações</h3>
+
+      <div class="export-buttons">
+        <a href="{{ url_for('exportar_pdf') }}"><button>Exportar PDF</button></a>
+        <a href="{{ url_for('exportar_excel') }}"><button>Exportar Excel</button></a>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Tipo</th>
+              <th>Descrição</th>
+              <th>Valor</th>
+              <th>Categoria</th>
+              <th>Data</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for t in transacoes %}
+            <tr>
+              <td>{{ t[0] }}</td> 
+              <td>{{ t[1] }}</td> 
+              <td>R$ {{ "%.2f"|format(t[2]) }}</td> 
+              <td>{{ t[4] }}</td> 
+              <td>{{ t[3]|datetimeformat }}</td> 
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>

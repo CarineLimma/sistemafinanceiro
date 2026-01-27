@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Adicionar Despesa</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="{{ url_for('dashboard') }}">Início</a></li>
+      <li><a href="{{ url_for('adicionar_receita') }}">Receita</a></li>
+      <li><a href="{{ url_for('adicionar_despesa') }}" class="active">Despesa</a></li>
+      <li><a href="{{ url_for('historico') }}">Histórico</a></li>
+      <li><a href="{{ url_for('agendar_transacao') }}">Agendar</a></li>
+      <li><a href="{{ url_for('logout') }}">Sair</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="card-box">
+      <h3 class="text-center mb-4">Adicionar Despesa</h3>
+      <form method="POST" action="{{ url_for('adicionar_despesa') }}">
+        <label for="descricao">Descrição</label>
+        <input type="text" id="descricao" name="descricao" placeholder="Ex: Conta de luz" required>
+
+        <label for="valor">Valor (R$)</label>
+        <input type="number" id="valor" name="valor" step="0.01" min="0" placeholder="0.00" required>
+
+        <label for="data">Data</label>
+        <input type="date" id="data" name="data" required>
+
+        <label for="categoria">Categoria</label>
+        <select id="categoria" name="categoria" required>
+          <option value="" disabled selected>Selecione</option>
+          <option value="Alimentação">Alimentação</option>
+          <option value="Transporte">Transporte</option>
+          <option value="Moradia">Moradia</option>
+          <option value="Saúde">Saúde</option>
+          <option value="Outros">Outros</option>
+        </select>
+
+        <button type="submit">Adicionar Despesa</button>
+      </form>
+    </div>
+  </main>
+</body>
+</html>

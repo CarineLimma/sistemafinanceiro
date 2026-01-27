@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Redefinir Senha</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body>
+
+  <div class="bg-bars">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+
+  <div class="auth-card">
+    <h2>🔑 Redefinir Senha</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }}" role="alert">{{ message }}</div>
+      {% endfor %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('redefinir_senha', token=token) }}">
+      <input type="password" id="senha" name="senha" placeholder="Nova Senha" required />
+      <input type="password" id="senha_confirm" name="senha_confirm" placeholder="Confirme a Nova Senha" required />
+      <button type="submit">Atualizar Senha</button>
+    </form>
+
+    <a href="{{ url_for('login') }}">← Voltar para Login</a>
+  </div>
+
+</body>
+</html>
