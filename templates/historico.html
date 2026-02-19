@@ -37,6 +37,7 @@
               <th>Valor</th>
               <th>Categoria</th>
               <th>Data</th>
+              <th>Ação</th>
             </tr>
           </thead>
           <tbody>
@@ -47,6 +48,15 @@
               <td>R$ {{ "%.2f"|format(t[2]) }}</td> 
               <td>{{ t[4] }}</td> 
               <td>{{ t[3]|datetimeformat }}</td> 
+              
+              <td> 
+                 <a href="{{ url_for('editar_transacao', id=t.id) }}" class="btn btn-sm btn-warning">
+             ✏️ Editar
+              </a>
+              <a href="{{ url_for('excluir_transacao', id=t.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza que deseja excluir esta transação?');">
+             🗑️ Excluir
+              </a>
+              </td>
             </tr>
             {% endfor %}
           </tbody>

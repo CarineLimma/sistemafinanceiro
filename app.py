@@ -434,6 +434,58 @@ def exportar_pdf():
 
     return send_file(buffer, as_attachment=True, download_name='transacoes.pdf', mimetype='application/pdf')
 
+
+@app.route('/excluir-transacao/<int:id>')
+@Login_required
+def excluir_transacao(id):
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+     cursor.execute(
+        "DELETE FROM transacoes WHERE id = ? AND usuario_id = ?",
+        (id, session['user_id'])
+    )
+
+    conn.commit()
+    conn.close()
+
+    flash("Transação excluída com sucesso!", "success")
+    return redirect(url_for('historico'))
+
+@app.route('/editar-transacao/<int:id>', methods=['GET', 'POST'])
+@login_required
+def editar_transacao(id):
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    if request.method == 'POST':
+        descricao = request.form['descricao']
+        valor = request.form['valor']
+        categoria = request.form['categoria']
+        data = request.form['data']
+
+        cursor.execute("""
+            UPDATE transacoes
+            SET descricao=?, valor=?, categoria=?, data=?
+            WHERE id=? AND usuario_id=?
+        """, (descricao, valor, categoria, data, id, session['user_id']))
+
+        conn.commit()
+        conn.close()
+
+        flash('Transação atualizada com sucesso!', 'success')
+        return redirect(url_for('historico'))
+
+    cursor.execute(
+        "SELECT * FROM transacoes WHERE id=? AND usuario_id=?",
+        (id, session['user_id'])
+    )
+    transacao = cursor.fetchone()
+    conn.close()
+
+    return render_template('editar_transacao.html', transacao=transacao)
+
 @app.route('/redefinir-senha/<token>', methods=['GET', 'POST'])
 def redefinir_senha(token):
     try:
